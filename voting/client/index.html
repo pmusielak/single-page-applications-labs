@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WebSocket OnLine Voting System</title>
+        <script>
+            var socket = new WebSocket("ws://localhost:3000/voting");// create WebSocket for URI: ws://localhost:3000
+            socket.onmessage = onMessage;
+            function onMessage(event) {
+                var results = JSON.parse(event.data);
+                const Pizza = document.getElementById("pizza");
+                const Pasta = document.getElementById("pasta");
+                Pizza.textContent = results.pizza;
+                Pasta.textContent = results.pasta;
+
+                //parse received message
+                //insert voting results into respective span elements
+            }
+
+            function vote(value) {
+                socket.send(value);
+                // send value through WebSocket;
+            }
+        </script>
+    </head>
+    <body>
+        <h4>Current voting results</h4>
+        Pizza: <span id="pizza"></span> Pasta: <span id="pasta"></span>
+        <p>
+        <form id="addVoteForm">
+            <input type="button" value="Vote for Pizza!"
+            onclick="vote('Pizza')">
+            <input type="button" value="Vote for Pasta!"
+            onclick="vote('Pasta')">
+        </form>
+    </body>
+</html>
